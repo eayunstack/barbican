@@ -232,7 +232,7 @@ class SnakeoilCA(object):
         set_subject_X509Name(subject, self.subject_dn)
         cert.set_subject(subject)
         cert.gmtime_adj_notBefore(0)
-        cert.gmtime_adj_notAfter(self.expiry_days)
+        cert.gmtime_adj_notAfter(self.expiry_days * 24 * 60 * 60)
         cert.set_issuer(set_subject_X509Name(
             cert.get_issuer(), self.signing_dn))
         cert.set_pubkey(key)
@@ -286,7 +286,7 @@ class CertManager(object):
         cert = crypto.X509()
         cert.set_serial_number(self.get_new_serial())
         cert.gmtime_adj_notBefore(0)
-        cert.gmtime_adj_notAfter(expires)
+        cert.gmtime_adj_notAfter(expires * 24 * 60 * 60)
         cert.set_issuer(self.ca.cert.get_subject())
         cert.set_subject(csr.get_subject())
         cert.set_pubkey(csr.get_pubkey())
